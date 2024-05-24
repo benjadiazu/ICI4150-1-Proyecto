@@ -58,4 +58,21 @@ EP2.1: Implementar la captura y almacenamiento de los datos de los sensores. (el
 
 EP2.2: Realizar diagramas de la propuesta, eso implica considerar aspectos como : (1) la comunicación con la UI, (2) si tiene asignado un robot móvil debe presentar mapa topográfico. De lo contrario análisis de los movimientos (Cinemática) , (3) Interacción (guión), (4) arquitectura de control.
 
+Interacción:
+1.	El robot iniciará en un punto arbitrario del laberinto.
+2.	Identificar la ruta a seguir del mapa topográfico asignado, representando los cruces como nodos y los caminos rectos como los arcos de un grafo.
+3.	Utilizar los motores para desplazarse en el laberinto, con las siguientes acciones:
+	1.	Ir hacia adelante.
+	2.	Girar a la derecha.
+	3.	Girar a la izquierda.
+	4.	Retroceder.
+	5.	Detenerse.
+4.	En caso de que el sensor de ultrasonido detecte un obstáculo, continuará el siguiente paso de la ruta, aplicando uno de los 5 movimientos definido anteriormente.
+5.	A medida que recorre el laberinto, utilizará el sensor RGB, para identificar uno de los casos posibles:
+	1.	Zona verde: Correspondiente a una persona que no necesita auxilio inmediato. El robot notifica a la aplicación de que se encontró una víctima sin atención urgente y sigue con la ruta pudiendo atravesar la zona verde para continuar su ruta.
+	2.	Zona roja: Es una persona que necesita ayuda urgente. El robot notifica a la aplicación de que se encontró una victima con necesidad de atención inmediata y sigue con la ruta pudiendo atravesar la zona verde para continuar su ruta.
+	3.	Zona negra: Son las secciones de peligro, las cuales el robot no debe seguir su camino. Se notificará a la aplicación de que hay una zona de peligro, por lo cual, se debe continuar con otra ruta, en caso de que el robot encuentre dicha sección, debe volver al último nodo visitado y recalcular una nueva ruta hacia el nodo objetivo.
+6.	Una vez recorrido todos los nodos del mapa, el robot vuelve al origen y se detiene, indicando a la aplicación que se finalizó la exploración.
+
+
 EP2.3: Ubicación de los sensores y actuadores que se requieren en el robot seleccionado (hacer diagrama o tomar foto)
