@@ -11,7 +11,7 @@ Thomas Molina
 
 EP 1.1: ¿Qué tipo de robot es? (Justifique)
 	
-R: En base a su estructura y a su tipo de desplazamiento, este sería un robot móvil. El robot no está fijado a una ubicación, si no que puede desplazarse libremente en su eje “x” e “y” mediante cuatro ruedas. Además, por su comportamiento sería un robot autónomo, puesto que necesita tomar decisiones al rescatar víctimas en base a su color y evitar agujeros.
+R: En base a su estructura y a su tipo de desplazamiento, este sería un robot móvil. El robot es capaz de desplazarse libremente en su eje “x” e “y” mediante cuatro ruedas, partiendo desde un punto inicial arbitrario. Además, por su comportamiento sería un robot autónomo, puesto a que el controlador tomará decisiones que cambien la dirección del movimiento en base a los obstáculos del laberinto, añadido a esto, el robot sería capaz de identificar por si mismo a un sujeto ileso o herido mediante el color, o identificar si se encuentra en una zona peligrosa que no debe explorar.
 
 EP1.2: ¿Qué tipo de sensores incluirá su robot?, ¿Cómo se puede extraer información de los sensores? (Justifique, debe incluir al menos dos sensores)
 
@@ -36,8 +36,8 @@ R: El robot sólo se podrá desplazar en el eje “x” e “y”, de manera lat
  
 EP1.5: ¿Cuántos grados de libertad dispone el robot con el que va a trabajar? (Justifique)
 	
-R:  El robot cuenta con 5 grados de libertad distribuidos en sus 3 articulaciones:
-Las primeras dos articulaciones están relacionadas con las ruedas delanteras del robot, que posee actuadores que le permiten realizar movimientos de izquierda a derecha, como también hacia adelante y hacia atrás. Al ser dos grados de libertad por cada rueda delantera, se contarían cuatro grados de libertad en total para desencadenar el desplazamiento. 
+R:  El robot cuenta con 3 grados de libertad distribuidos en sus 3 articulaciones:
+Las primeras dos articulaciones están relacionadas con las ruedas delanteras del robot, que posee actuadores que le permiten realizar movimientos de izquierda a derecha, como también hacia adelante y hacia atrás. Al ser dos direcciones de movimiento distintas, se contarían dos grados de libertad en total para desencadenar el desplazamiento.
 La tercera articulación está en la “cabeza” del robot, la cual puede girar a conveniencia y permite que el sensor ubicado en la zona tenga un mayor alcance. Al ser un solo tipo de movimiento, este contaría como un grado de libertad.
 
 EP1.6: ¿Cómo se puede controlar la velocidad de las ruedas para alcanzar una posición deseada?
@@ -50,7 +50,12 @@ R: Se usará Arduino UNO, porque el microcontrolador permite obtener respuestas 
 
 EP1.8: ¿Qué respuestas de retroalimentación tendrá el robot? (Justifique)
 	
-R: El robot recibirá dos respuestas de retroalimentación, ambas relacionadas a los sensores que utilizará:
-En primer lugar, el robot utilizará un control de lazo cerrado ligado al sensor ultrasónico. Este sensor recibirá una respuesta auditiva relacionada a un valor que indicará la distancia actual con algún obstáculo presente, basado en el tiempo que tardará el sonido en ir y regresar. Así el controlador podrá determinar el movimiento a realizar.
-Para el sensor RGB, la retroalimentación se aplicará a través de un control de lazo cerrado, teniendo como parámetros principales los valores de rojo, verde y azul, obtenidos de la luz entrante que otorgue el sensor RGB. Este valor es importante para el registro que el robot deberá ir montando, ya que éste debe distinguir correctamente el color de una persona herida de gravedad del color que tendrá una que no.
+R: El robot emitirá dos respuestas de retroalimentación, ambas relacionadas a los sensores que utilizará:
+En primer lugar, el robot utilizará un control de lazo cerrado ligado al sensor ultrasónico. Este sensor recibirá una señal en forma de onda sonora que estará relacionada a un valor que indicará la distancia actual con algún obstáculo presente, basado en el tiempo que tardará el sonido en ir y regresar. Así el controlador podrá determinar el movimiento a realizar, el cual será la respuesta que entregue el robot, un cambio en las velocidades de las ruedas que determinarán el movimiento que realizará robot.
+La segunda respuesta, está ligada al sensor RGB, la retroalimentación será una señal que recibirá la interfaz con la información del color identificado, marcando aquel lugar del laberinto como una zona donde se encontró una persona herida de gravedad, una persona sin heridas, o una zona peligrosa para la exploración.
 
+EP2.1: Implementar la captura y almacenamiento de los datos de los sensores. (el almacenamiento de los datos puede ser JSON)
+
+EP2.2: Realizar diagramas de la propuesta, eso implica considerar aspectos como : (1) la comunicación con la UI, (2) si tiene asignado un robot móvil debe presentar mapa topográfico. De lo contrario análisis de los movimientos (Cinemática) , (3) Interacción (guión), (4) arquitectura de control.
+
+EP2.3: Ubicación de los sensores y actuadores que se requieren en el robot seleccionado (hacer diagrama o tomar foto)
