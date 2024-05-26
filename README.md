@@ -94,8 +94,8 @@ Para este punto, consideramos que hay 4 direcciones posibles para el robot (Arri
 	3.	Girar a la izquierda.
 	4.	Retroceder.
 	5.	Detenerse.
-4.      Para cambiar de nodo, además de los motores, el robot utilizará el sensor ultrasonido, para medir su posición en base a la distancia a la siguiente pared.
-5.      Para ejecutar el siguiente paso de la ruta, el robot se decidirá por uno de los dos caminos posibles a seguir, efectuando un giro antes de continuar. En el caso de que sólo sea posible devolver por donde llegó, el robot deberá girar en 180 grados 	antes de continuar.
+4. 	Para cambiar de nodo, además de los motores, el robot utilizará el sensor ultrasonido, para medir su posición en base a la distancia a la siguiente pared.
+5. 	Para ejecutar el siguiente paso de la ruta, el robot se decidirá por uno de los dos caminos posibles a seguir, efectuando un giro antes de continuar. En el caso de que sólo sea posible devolver por donde llegó, el robot deberá girar en 180 grados 	antes de continuar.
 6.	A medida que recorre el laberinto, tanto en nodos como arcos, el robot utilizará el sensor RGB, para identificar uno de los casos posibles:
 	1.	Zona verde: Correspondiente a una persona que no necesita auxilio inmediato. El robot notifica a la aplicación de que se encontró una víctima sin atención urgente y sigue con la ruta pudiendo atravesar la zona verde para continuar su ruta.
 	2.	Zona roja: Es una persona que necesita ayuda urgente. El robot notifica a la aplicación de que se encontró una victima con necesidad de atención inmediata y sigue con la ruta pudiendo atravesar la zona verde para continuar su ruta.
