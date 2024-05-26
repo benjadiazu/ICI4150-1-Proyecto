@@ -102,5 +102,8 @@ Para este punto, consideramos que hay 4 direcciones posibles para el robot (Arri
 	3.	Zona negra: Son las secciones de peligro, las cuales el robot no debe seguir su camino. Se notificará a la aplicación de que hay una zona de peligro, por lo cual, se debe volver al último nodo visitado y recalcular una nueva ruta hacia el nodo objetivo.
 7.	Una vez recorrido todos los nodos del mapa, el robot vuelve al origen y se detiene, indicando a la aplicación que se finalizó la exploración.
 
+Tipo de Arquitectura:
+
+En base a lo anterior, el robot funcionará a partir de una arquitectura Reactiva basada en comportamientos, ya que definirá ciertas acciones posibles de realizar, pero se ejecutarán según el entorno lo permita y el módulo de control (Arduino UNO) lo dictamine. Las acciones en este caso serían las de: Monitorear Distancia, Monitorear Color, Girar Izquierda/Derecha, Avanzar/Retroceder, Emitir señal.
 
 EP2.3: Ubicación de los sensores y actuadores que se requieren en el robot seleccionado (hacer diagrama o tomar foto)
