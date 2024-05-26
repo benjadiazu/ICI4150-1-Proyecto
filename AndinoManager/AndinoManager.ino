@@ -1,8 +1,10 @@
 #include<SoftwareSerial.h>
+#include<Servo.h>
 
 
 #define TRIGGER_PIN 12
 #define ECHO_PIN 11
+#define SIGNAL 2
 
 #define INT1 5 
 #define INT2 6
@@ -12,6 +14,7 @@
 int speedMotor = 255;
 
 long distance;
+int intensidad;
 
 const float setPoint = 100; // Set point for speed control, using ultrasonic sensor
 float time_PID = 0;
@@ -41,28 +44,51 @@ RobotMovements::RobotMovements() {
 }
 
 void RobotMovements::moveForward(int velocity) {
-    this->motorA('A',velocity);
-    this->motorB('R',velocity);
+    analogWrite(INT1,LOW);
+    analogWrite(INT2,velocity);
+    
+    analogWrite(INT3,velocity);
+    analogWrite(INT4,LOW);
+    //this->motorA('A',0);
+    //this->motorB('R',0);
 }
 
 void RobotMovements::moveBackward(int velocity) {
-    this->motorA('R', velocity);
-    this->motorB('A', velocity);
+    analogWrite(INT1,velocity);
+    analogWrite(INT2,LOW);
+    
+    analogWrite(INT3,LOW);
+    analogWrite(INT4,velocity);
+    //this->motorA('R', velocity);
+    //this->motorB('A', velocity);
 }
 
 void RobotMovements::moveRight(int velocity) {
-    this->motorA('A', velocity);
-    this->motorB('R', 0);
+    analogWrite(INT1,LOW);
+    analogWrite(INT2,velocity);
+    
+    analogWrite(INT3,LOW);
+    analogWrite(INT4,LOW);
+    //this->motorA('R', velocity);
+    //this->motorB('A', 0);
 }
 
 void RobotMovements::moveLeft(int velocity) {
-    this->motorA('A', 0);
-    this->motorB('R', velocity);
+    analogWrite(INT1,LOW);
+    analogWrite(INT2,LOW);
+    
+    analogWrite(INT3,velocity);
+    analogWrite(INT4,LOW);
+    //this->motorA('A', 0);
+    //this->motorB('R', velocity);
 }
 
 void RobotMovements::stop() {
-    this->motorA('A',0);
-    this->motorB('R',0);
+    analogWrite(INT1,LOW);
+    analogWrite(INT2,LOW);
+    
+    analogWrite(INT3,LOW);
+    analogWrite(INT4,LOW);
 }
 
 void RobotMovements::motorA(char d, int velocity){
@@ -94,8 +120,10 @@ void RobotMovements::motorB(char d, int velocity){
 
 SoftwareSerial BT(11,10);
 RobotMovements robot;
+Servo servoMotor;
 
 void setup() {
+  
   // put your setup code here, to run once:
   Serial.begin(9600);
   
@@ -109,64 +137,12 @@ void setup() {
   pinMode(INT2,OUTPUT);
   pinMode(INT3,OUTPUT);
   pinMode(INT4,OUTPUT);
+
+  //servoMotor.attach(SIGNAL);
+  //servoMotor.write(90);
+  robot.stop();
 }
 
-void loop() {
-
-  const int n = 50;
-  for (int i = 1; i < n; i++) {
-
-      distance = Ultrasonido(TRIGGER_PIN, ECHO_PIN);
-
-      time_PID = i * deltat;
-      float pid_out = PID(0.6, 0.2, 0.1, setPoint, distance);
-      time_prev = time_PID;
-      Serial.println("------------");
-      Serial.println(distance);
-      Serial.println(pid_out);
-      Serial.println("------------");
-
-      if (pid_out > 300) {
-          Serial.println("Avanza muy rapido");
-          robot.moveForward(200);
-      }
-      if (50 < pid_out && pid_out < 200) {
-          Serial.println("Avanza lento");
-          robot.moveForward(50);
-      }
-      if (pid_out < 30) {
-          Serial.println("Se para");
-          robot.stop();
-      }
-
-      delay(0.1); // Delay in milliseconds
-    }
-
-  /*
-  if(distancia <= 1000){
-    if(distancia<=15){
-      motorA('A',0);
-      motorB('R',0);
-    }else{
-      motorA('A',128);
-      motorB('R',128);
-    }
-    //Serial.println((distancia));
-  } 
-  
-  */
-  delay(0.1);
-}
-
-void write_in_bluetooh(){
-  if(BT.available())
-    Serial.write(BT.read());
-
-  if(Serial.available())
-    BT.write(Serial.read());
-}
-//11 echo
-//12 trigger
 long Ultrasonido(int trigger, int eco){ 
   long duration; //timepo que demora en llegar el eco
   long distance; //distancia en centimetros
@@ -180,6 +156,34 @@ long Ultrasonido(int trigger, int eco){
   distance = (duration*.0343)/2; 
   return distance;
 }
+
+
+void loop(){
+  distance = Ultrasonido(TRIGGER_PIN, ECHO_PIN);
+  Serial.println(distance);
+  
+  if(Serial.available()){
+    intensidad = Serial.read();
+    if(intensidad != 0){
+      robot.moveForward(intensidad);
+    }else{
+      robot.stop();
+    }
+  }
+  delay(500);
+}
+
+
+/*
+void write_in_bluetooh(){
+  if(BT.available())
+    Serial.write(BT.read());
+
+  if(Serial.available())
+    BT.write(Serial.read());
+}
+//11 echo
+//12 trigger
 
 
 void motorA(char d, int velocity)
@@ -209,23 +213,4 @@ void motorB(char d,int velocity)
     analogWrite(INT4,LOW); 
   }
 }
-
-float PID(float Kp, float Ki, float Kd, int setpoint, int measurement) {
-    // Value of offset - when the error is equal zero
-    float offset = 320;
-
-    // PID calculations
-    float e = setpoint - measurement;
-
-    float P = Kp * e;
-    integral = integral + Ki * e * (time_PID - time_prev);
-    float D = Kd * (e - e_prev) / (time_PID - time_prev);
-    // calculate manipulated variable - MV
-    float MV = offset + P + integral + D;
-
-    // update stored data for next iteration
-    e_prev = e;
-    time_prev = time_PID;
-    return MV;
-}
-
+*/
