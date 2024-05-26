@@ -30,6 +30,7 @@ El número de veces que el sensor no detecta algún objeto relevante en el ambie
 Acerca de la incertidumbre, el robot no puede tener seguridad sobre los siguientes parámetros:
 La posición: El robot no tiene datos exactos sobre su posición, ya que no recibe señales visuales, además de que no puede guardar datos sobre el entorno como para generar un mapeo. Por ende, para que el robot pueda orientarse, deberá reaccionar frente a los obstáculos.
 Configuración del Entorno: Relacionado al punto anterior, el robot no tiene una imagen del entorno en el que se desenvolverá, por lo que no puede tener alguna pista de qué movimientos podrían recorrer el mapa de una forma óptima. El uso del sensor RGB servirá para identificar obstáculos y personas. Mientras que el sensor ultrasonido deberá definir los movimientos a realizar lo más “tarde” posible, para que el robot pueda recorrer lo máximo posible del mapa.
+
 EP1.4: ¿Cómo se mueve el robot? (Puede existir un dibujo o gráfico)
 
 R: El robot sólo se podrá desplazar en el eje “x” e “y”, de manera lateral (izquierda o derecha) o hacia adelante y hacia atrás. Su desplazamiento está sujeto a cuatro ruedas, de las cuales las dos delanteras son las que se encargan de otorgar los movimientos tanto laterales como rectos.
@@ -58,21 +59,48 @@ EP2.1: Implementar la captura y almacenamiento de los datos de los sensores. (el
 
 EP2.2: Realizar diagramas de la propuesta, eso implica considerar aspectos como : (1) la comunicación con la UI, (2) si tiene asignado un robot móvil debe presentar mapa topográfico. De lo contrario análisis de los movimientos (Cinemática) , (3) Interacción (guión), (4) arquitectura de control.
 
+La propuesta será la de un robot que pueda recorrer un laberinto, evitando chocar contra las paredes y pasar sobre placas de color negro (obstáculos), a su vez, debe reconocer cuadrados rojos y verdes colocados en el suelo del laberinto, envíando señales de cada cambio en su desplazamiento, y cada cuadrado de color encontrado. La ruta que seguirá el robot estará determinada por las placas de color, y una vez haya encontrado la última, el robot debe regresar a su punto inicial.
+
+Diagrama del Laberinto:
+
+El laberinto estará compuesto de un conjunto de placas cuadradas de cartón de 21x21 cm, que contendrán un espacio de movimiento libre para el robot, y las paredes (delimitaciones) que separan una placa de otra.
+
+[Imagen]
+
+Las 4 paredes definidas en la imagen anterior, pueden o no estar según la configuración del laberinto (la cual será explicada en el siguiente punto), en el caso que no exista alguna de las paredes, el espacio que ocupa se sumará al espacio libre de 15x15 cm. Para construir el laberinto completo, se consideró que el tamaño fuera de 11x11 placas, quedando algo así:
+
+[Imagen]
+
+Representación Matricial del Mapa:
+
+El robot recibirá de antemano un mapa topográfico, que será representado por una matriz cuadrada de 11x11 que se definirá según el script adjuntado en el repositorio (nombre_de_codigo.py). Este script entrega una matriz como la que se ve a continuación.
+
+[Imagen]
+
+Para esta propuesta, los 1 son espacios que se consideran obstáculos, y por ende, el robot no puede pasar por ellos, mientras que los espacios marcados por 0, son espacios que el robot si puede atravesar.
+
 Interacción:
+
+Para este punto, consideramos que hay 4 direcciones posibles para el robot (Arriba, Abajo, Izquierda, Derecha). Los pasos a seguir por el robot entonces serían los siguientes.
+
 1.	El robot iniciará en un punto arbitrario del laberinto.
-2.	Identificar la ruta a seguir del mapa topográfico asignado, representando los cruces como nodos y los caminos rectos como los arcos de un grafo.
+2.	Identificar la ruta de exploración a seguir del mapa topográfico asignado. Para definir un nodo, se toma en cuenta las sigueintes reglas:
+        1. Si un espacio marcado como 0, tiene un solo vecino marcado como 0, representará un cruce y será un nodo;
+  	2. Si un espacio marcado como 0 tiene vecinos marcados como 0 en direcciones pertencientes a ejes distintos (vertical y horizontal), entonces también es un cruce y será considerado como nodo.
+	En cualquier otro caso, el espacio marcado como 0, será un arco.
 3.	Utilizar los motores para desplazarse en el laberinto, con las siguientes acciones:
 	1.	Ir hacia adelante.
 	2.	Girar a la derecha.
 	3.	Girar a la izquierda.
 	4.	Retroceder.
 	5.	Detenerse.
-4.	En caso de que el sensor de ultrasonido detecte un obstáculo, continuará el siguiente paso de la ruta, aplicando uno de los 5 movimientos definido anteriormente.
-5.	A medida que recorre el laberinto, utilizará el sensor RGB, para identificar uno de los casos posibles:
+4.      Para cambiar de nodo, además de los motores, el robot utilizará el sensor ultrasonido, para medir su posición en base a la distancia a la siguiente pared.
+5.      Para ejecutar el siguiente paso de la ruta, el robot se decidirá por uno de los dos caminos posibles a seguir, efectuando un giro antes de continuar. En el caso de que sólo sea posible devolver por donde llegó, el robot deberá girar en 180 grados 	antes de continuar.
+6.	A medida que recorre el laberinto, tanto en nodos como arcos, el robot utilizará el sensor RGB, para identificar uno de los casos posibles:
 	1.	Zona verde: Correspondiente a una persona que no necesita auxilio inmediato. El robot notifica a la aplicación de que se encontró una víctima sin atención urgente y sigue con la ruta pudiendo atravesar la zona verde para continuar su ruta.
 	2.	Zona roja: Es una persona que necesita ayuda urgente. El robot notifica a la aplicación de que se encontró una victima con necesidad de atención inmediata y sigue con la ruta pudiendo atravesar la zona verde para continuar su ruta.
-	3.	Zona negra: Son las secciones de peligro, las cuales el robot no debe seguir su camino. Se notificará a la aplicación de que hay una zona de peligro, por lo cual, se debe continuar con otra ruta, en caso de que el robot encuentre dicha sección, debe volver al último nodo visitado y recalcular una nueva ruta hacia el nodo objetivo.
-6.	Una vez recorrido todos los nodos del mapa, el robot vuelve al origen y se detiene, indicando a la aplicación que se finalizó la exploración.
+	3.	Zona negra: Son las secciones de peligro, las cuales el robot no debe seguir su camino. Se notificará a la aplicación de que hay una zona de peligro, por lo cual, se debe volver al último nodo visitado y recalcular una nueva ruta hacia el nodo objetivo.
+7.	Una vez recorrido todos los nodos del mapa, el robot vuelve al origen y se detiene, indicando a la aplicación que se finalizó la exploración.
 
 
 EP2.3: Ubicación de los sensores y actuadores que se requieren en el robot seleccionado (hacer diagrama o tomar foto)
