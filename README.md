@@ -69,19 +69,19 @@ Un usuario podrá ver en su dispositivo móvil desde la aplicación los datos en
 
 ### Diagrama del Laberinto:
 
-El laberinto estará compuesto de un conjunto de placas cuadradas de cartón de 15x15 cm, que contendrán un espacio de movimiento libre para el robot, y las paredes (delimitaciones) que separan una placa de otra. Cabe señalar que estas paredes serán cuadradas al igual que loa espacios de movimiento, con una altura de 11 cm.
+El laberinto estará compuesto de un conjunto de placas cuadradas de cartón de 15x15 cm, que contendrán un espacio de movimiento libre para el robot, y las paredes (delimitaciones) que separan una placa de otra. Cabe señalar que estas paredes temdrán una altura de 11 cm.
 
 ![Medidas a considerar](/Images/Medidas.png)
 
 Además, el laberinto estará rodeado por paredes en su exterior, impidiendo que el robot escape por accidente. A continuación, se presenta una representación del laberinto.
 
-![Laberinto propuesto](/Images/Maze.png)
+![Laberinto propuesto](/Images/Maze-v2.png)
 
 ### Representación Matricial del Mapa:
 
-El robot recibirá de antemano un mapa topográfico, que será representado por una matriz cuadrada de 9x9 que se definirá según el script adjuntado en el repositorio (Maze.py). Este script entrega una matriz como la que se ve a continuación.
+El robot recibirá de antemano un mapa topográfico, que será representado por una matriz cuadrada de 11x11 que se definirá según el script adjuntado en el repositorio (Maze.py). Este script entrega una matriz como la que se ve a continuación.
 
-![Matriz binaria del mapa topográfico](/Images/Binary_Maze.png)
+![Matriz binaria del mapa topográfico](/Images/Binary_Maze-2.png)
 
 
 Para esta propuesta, los 1 son espacios que se consideran obstáculos, y por ende, el robot no puede pasar por ellos, mientras que los espacios marcados por 0, son espacios que el robot si puede atravesar.
