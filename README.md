@@ -65,7 +65,7 @@ Diagrama del Laberinto:
 
 El laberinto estará compuesto de un conjunto de placas cuadradas de cartón de 15x15 cm, que contendrán un espacio de movimiento libre para el robot, y las paredes (delimitaciones) que separan una placa de otra. Cabe señalar que estas paredes serán cuadradas al igual que loa espacios de movimiento, con una altura de 11 cm.
 
-![Medidas a considerar](/Images/Maze.png)
+![Medidas a considerar](/Images/Medidas.png)
 
 Además, el laberinto estará rodeado por paredes en su exterior, impidiendo que el robot escape por accidente. A continuación, se presenta una representación del laberinto.
 
