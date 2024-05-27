@@ -63,19 +63,20 @@ La propuesta será la de un robot que pueda recorrer un laberinto, evitando choc
 
 Diagrama del Laberinto:
 
-El laberinto estará compuesto de un conjunto de placas cuadradas de cartón de 21x21 cm, que contendrán un espacio de movimiento libre para el robot, y las paredes (delimitaciones) que separan una placa de otra.
+El laberinto estará compuesto de un conjunto de placas cuadradas de cartón de 15x15 cm, que contendrán un espacio de movimiento libre para el robot, y las paredes (delimitaciones) que separan una placa de otra. Cabe señalar que estas paredes serán cuadradas al igual que loa espacios de movimiento, con una altura de 11 cm.
 
-![Laberinto propuestot](/Images/Maze.png)
+![Medidas a considerar](/Images/Maze.png)
 
-Las 4 paredes definidas en la imagen anterior, pueden o no estar según la configuración del laberinto (la cual será explicada en el siguiente punto), en el caso que no exista alguna de las paredes, el espacio que ocupa se sumará al espacio libre de 15x15 cm. Para construir el laberinto completo, se consideró que el tamaño fuera de 11x11 placas, quedando algo así:
+Además, el laberinto estará rodeado por paredes en su exterior, impidiendo que el robot escape por accidente. A continuación, se presenta una representación del laberinto.
 
-[Imagen]
+![Laberinto propuesto](/Images/Maze.png)
 
 Representación Matricial del Mapa:
 
-El robot recibirá de antemano un mapa topográfico, que será representado por una matriz cuadrada de 11x11 que se definirá según el script adjuntado en el repositorio (nombre_de_codigo.py). Este script entrega una matriz como la que se ve a continuación.
+El robot recibirá de antemano un mapa topográfico, que será representado por una matriz cuadrada de 9x9 que se definirá según el script adjuntado en el repositorio (Maze.py). Este script entrega una matriz como la que se ve a continuación.
 
-[Imagen]
+![Matriz binaria del mapa topográfico](/Images/Binary_Maze.png)
+
 
 Para esta propuesta, los 1 son espacios que se consideran obstáculos, y por ende, el robot no puede pasar por ellos, mientras que los espacios marcados por 0, son espacios que el robot si puede atravesar.
 
@@ -107,3 +108,5 @@ Tipo de Arquitectura:
 En base a lo anterior, el robot funcionará a partir de una arquitectura Reactiva basada en comportamientos, ya que definirá ciertas acciones posibles de realizar, pero se ejecutarán según el entorno lo permita y el módulo de control (Arduino UNO) lo dictamine. Las acciones en este caso serían las de: Monitorear Distancia, Monitorear Color, Girar Izquierda/Derecha, Avanzar/Retroceder, Emitir señal.
 
 EP2.3: Ubicación de los sensores y actuadores que se requieren en el robot seleccionado (hacer diagrama o tomar foto)
+
+![Sensores y actuadores del robot](/Images/Robot.png)
