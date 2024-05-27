@@ -1,6 +1,6 @@
 # ICI4150-1-Proyecto
 
-Integrantes:
+### Integrantes:
 <br>
 Benjamín Díaz
 <br>
@@ -90,26 +90,37 @@ Para esta propuesta, los 1 son espacios que se consideran obstáculos, y por end
 
 Para este punto, consideramos que hay 4 direcciones posibles para el robot (Arriba, Abajo, Izquierda, Derecha). Los pasos a seguir por el robot entonces serían los siguientes.
 
-1.	El robot iniciará en un punto arbitrario del laberinto.
+1.	El robot iniciará en un punto arbitrario del laberinto. 
+![Inicio en un punto arbitrario](/Images/Diagramas_Robot_Pasos/Interaccion-Paso1.png)
 2.	Identificar la ruta de exploración a seguir del mapa topográfico asignado. Para definir un nodo, se toma en cuenta las sigueintes reglas:
         1. Si un espacio marcado como 0, tiene un solo vecino marcado como 0, representará un cruce y será un nodo;
   	2. Si un espacio marcado como 0 tiene vecinos marcados como 0 en direcciones pertencientes a ejes distintos (vertical y horizontal), entonces también es un cruce y será considerado como nodo.
 	En cualquier otro caso, el espacio marcado como 0, será un arco.
+![Inicio en un punto arbitrario](/Images/Diagramas_Robot_Pasos/Interaccion-Paso2.png)
 3.	Utilizar los motores para desplazarse en el laberinto, con las siguientes acciones:
 	1.	Ir hacia adelante.
+![Inicio en un punto arbitrario](/Images/Diagramas_Robot_Pasos/Interaccion-Paso3-1.png)
 	2.	Girar a la derecha.
+![Inicio en un punto arbitrario](/Images/Diagramas_Robot_Pasos/Interaccion-Paso3-2.png)
 	3.	Girar a la izquierda.
+![Inicio en un punto arbitrario](/Images/Diagramas_Robot_Pasos/Interaccion-Paso3-3.png)
 	4.	Retroceder.
+![Inicio en un punto arbitrario](/Images/Diagramas_Robot_Pasos/Interaccion-Paso3-4.png)
 	5.	Detenerse.
- 	6.	Girar en 180°.
+![Inicio en un punto arbitrario](/Images/Diagramas_Robot_Pasos/Interaccion-Paso3-5.png)
 4. 	Para cambiar de nodo, además de los motores, el robot utilizará el sensor ultrasonido, para medir su posición en base a la distancia a la siguiente pared.
+![Inicio en un punto arbitrario](/Images/Diagramas_Robot_Pasos/Interaccion-Paso4.png)
 5. 	Para ejecutar el siguiente paso de la ruta, el robot se decidirá por uno de los dos caminos posibles a seguir, efectuando un giro antes de continuar. En el caso de que sólo sea posible devolver por donde llegó, el robot deberá girar en 180 grados 	antes de continuar.
+![Inicio en un punto arbitrario](/Images/Diagramas_Robot_Pasos/Interaccion-Paso5.png)
 6.	A medida que recorre el laberinto, tanto en nodos como arcos, el robot utilizará el sensor RGB, para identificar uno de los casos posibles:
 	1.	Zona verde: Correspondiente a una persona que no necesita auxilio inmediato. El robot notifica a la aplicación de que se encontró una víctima sin atención urgente y sigue con la ruta pudiendo atravesar la zona verde para continuar su ruta.
+![Inicio en un punto arbitrario](/Images/Diagramas_Robot_Pasos/Interaccion-Paso6-1.png)
 	2.	Zona roja: Es una persona que necesita ayuda urgente. El robot notifica a la aplicación de que se encontró una victima con necesidad de atención inmediata y sigue con la ruta pudiendo atravesar la zona verde para continuar su ruta.
+![Inicio en un punto arbitrario](/Images/Diagramas_Robot_Pasos/Interaccion-Paso6-2.png)
 	3.	Zona negra: Son las secciones de peligro, las cuales el robot no debe seguir su camino. Se notificará a la aplicación de que hay una zona de peligro, por lo cual, se debe volver al último nodo visitado y recalcular una nueva ruta hacia el nodo objetivo.
+![Inicio en un punto arbitrario](/Images/Diagramas_Robot_Pasos/Interaccion-Paso6-3.png)
 7.	Una vez recorrido todos los nodos del mapa, el robot vuelve al origen y se detiene, indicando a la aplicación que se finalizó la exploración.
-
+![Inicio en un punto arbitrario](/Images/Diagramas_Robot_Pasos/Interaccion-Paso7.png)
 ### Tipo de Arquitectura:
 
 En base a lo anterior, el robot funcionará a partir de una arquitectura Reactiva basada en comportamientos, ya que definirá ciertas acciones posibles de realizar, pero se ejecutarán según el entorno lo permita y el módulo de control (Arduino UNO) lo dictamine. Las acciones en este caso serían las de: Monitorear Distancia, Monitorear Color, Girar Izquierda/Derecha, Avanzar/Retroceder, Emitir señal.
